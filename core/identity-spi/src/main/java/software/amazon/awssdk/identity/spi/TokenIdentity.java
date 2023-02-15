@@ -13,14 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package software.amazon.awssdk.auth.token.credentials;
+package software.amazon.awssdk.identity.spi;
 
-import java.time.Instant;
-import java.util.Optional;
 import software.amazon.awssdk.annotations.SdkPublicApi;
-import software.amazon.awssdk.identity.spi.TokenIdentity;
 
-// TODO: remove AWS reference
+// TODO: Is it ok to reference OAuth here? i.e., Token implies OAuth? or can be other things?
+//       Difference between TokenIdentity and SdkToken
+// TODO: Remove AWS specific reference to make this generic?
 /**
  * Provides token which is used to securely authorize requests to AWS services.
  * A token is a string that the OAuth client uses to make requests to the resource server.
@@ -28,24 +27,14 @@ import software.amazon.awssdk.identity.spi.TokenIdentity;
  * <p>For more details on tokens, see:
  * <a href="https://oauth.net/2/access-tokens">
  * https://oauth.net/2/access-tokens</a></p>
- *
- * @see SdkTokenProvider
  */
 @SdkPublicApi
-public interface SdkToken extends TokenIdentity {
+public interface TokenIdentity extends Identity {
 
+    // TODO: Is it ok to reference OAuth here?
     /**
-     * // TODO: {@inheritDoc}?
      * Retrieves string field representing the literal token string.
      * A token is a string that the OAuth client uses to make requests to the resource server.
      */
-    @Override
     String token();
-
-    /**
-     * // TODO: {@inheritDoc}?
-     * Retrieves the time at which the token expires.
-     */
-    @Override
-    Optional<Instant> expirationTime();
 }

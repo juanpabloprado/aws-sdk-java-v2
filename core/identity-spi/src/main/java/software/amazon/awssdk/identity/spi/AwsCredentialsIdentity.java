@@ -13,11 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package software.amazon.awssdk.auth.credentials;
+package software.amazon.awssdk.identity.spi;
 
 import software.amazon.awssdk.annotations.SdkPublicApi;
-import software.amazon.awssdk.identity.spi.AwsCredentialsIdentity;
 
+// TODO: copied from AwsCredentials. Should the javadoc in this package generalize for non-AWS services using
+// aws credentials? Should we mention APIGateway specifically? Should it mention sigV4 directly (other signing?)?
+// TODO: the link is broken, find suitable replacement.
 /**
  * Provides access to the AWS credentials used for accessing AWS services: AWS access key ID and secret access key. These
  * credentials are used to securely sign requests to AWS services.
@@ -25,21 +27,30 @@ import software.amazon.awssdk.identity.spi.AwsCredentialsIdentity;
  * <p>For more details on AWS access keys, see:
  * <a href="http://docs.amazonwebservices.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys">
  * http://docs.amazonwebservices.com/AWSSecurityCredentials/1.0/AboutAWSCredentials.html#AccessKeys</a></p>
- *
- * @see AwsCredentialsProvider
  */
 @SdkPublicApi
-public interface AwsCredentials extends AwsCredentialsIdentity {
+public interface AwsCredentialsIdentity extends Identity {
 
-    // TODO: Trying to remove these from being redefined causes japicmp error for removed methods
+    // TODO: Adding these methods implementation would make identity-spi depend on auth module, which is circular
+    //       Was there a different implementation assumed?
+    // static AwsCredentialsIdentity create(String accessKeyId,
+    //                                      String secretAccessKey) {
+    //     return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+    // }
+    //
+    // static AwsSessionCredentialsIdentity create(String accessKeyId,
+    //                                             String secretAccessKey,
+    //                                             String sessionToken) {
+    //     return AwsSessionCredentials.create(accessKeyId, secretAccessKey, sessionToken);
+    // }
+
+    // TODO: remove AWS reference?
     /**
-     * // TODO: {@inheritDoc}?
      * Retrieve the AWS access key, used to identify the user interacting with AWS.
      */
     String accessKeyId();
 
     /**
-     * // TODO: {@inheritDoc}?
      * Retrieve the AWS secret access key, used to authenticate the user interacting with AWS.
      */
     String secretAccessKey();
